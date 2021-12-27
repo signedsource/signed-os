@@ -132,4 +132,3 @@ gdt64:
 .pointer:
     dw $ - gdt64 - 1 ; length - 1
     dq gdt64
-

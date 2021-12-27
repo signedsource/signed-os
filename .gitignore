@@ -1,5 +1,5 @@
 .vscode/
 dist/
-build/kernel/
-build/x86_64/
-targets/x86_64/boot/grub/kernel.bin
+/build/kernel/
+/build/x86_64/
+/targets/x86_64/iso/boot/kernel.bin
