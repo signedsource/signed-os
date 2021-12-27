@@ -1,5 +1,4 @@
 #include "print.h"
-#include <stdbool.h>
 
 void kernel_main() {
     print_clear();
