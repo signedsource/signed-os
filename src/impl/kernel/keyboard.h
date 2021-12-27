@@ -3,7 +3,6 @@
 
 #define KEYBOARD_PORT 0x60
 
-
 #define KEY_A 0x1E
 #define KEY_B 0x30
 #define KEY_C 0x2E
@@ -104,8 +103,5 @@
 
 #define KEY_SCROLL_LOCK_PRESS 0x46
 #define KEY_SCROLL_LOCK_RELEASE 0xC6
-
-
-
 
 #endif
