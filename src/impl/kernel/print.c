@@ -94,7 +94,7 @@ void print_char(char character)
 		return;
 	}
 
-	if (col > NUM_ROWS)
+	if (col > NUM_COLS)
 	{
 		print_newline();
 	}
@@ -253,7 +253,7 @@ void input(void (fn)(char)) {
 		}
 		sleep(0x02FFFFFF);
 	} while (stop == false);
-	
+
 	fn(strcnt(chptr));
 }
 /*
