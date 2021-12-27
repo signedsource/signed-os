@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "chars.h"
 #include <stdbool.h>
+// #include <string.h>
 
 const static size_t NUM_COLS = 80;
 const static size_t NUM_ROWS = 25;
@@ -93,7 +94,7 @@ void print_char(char character)
 		return;
 	}
 
-	if (col > NUM_COLS)
+	if (col > NUM_ROWS)
 	{
 		print_newline();
 	}
@@ -173,19 +174,29 @@ void sleep(uint32 timer_count) {
 	wait_for_io(timer_count);
 }
 
-void test_input() {
+char strcnt(char str[]) {
+	for(int i = 0; str[i] != '\0'; ++i) {
+	    print_char(str[i]);
+	}
+}
+
+void input(void (fn)(char)) {
+	char chptr[256] = { "\0" };
+	int chptrindex = 0;
 	char ch = 0;
 	char keycode = 0;
-	do
-	{
+	bool stop = false;
+	do {
 		keycode = get_input_keycode();
 		if (keycode == KEY_ENTER)
 		{
-			print_newline();
+			stop = true;
 		}
 		else if (keycode == KEY_BACKSPACE)
 		{
 			clear_col(col);
+			chptrindex--;
+			chptr[chptrindex] = NULL;
 		}
 		else if (keycode == KEY_LEFT_ALT_PRESS)
 		{
@@ -228,16 +239,22 @@ void test_input() {
 			{
 				//we're capitalized
 				ch = get_ascii_char(keycode);
+				chptr[chptrindex] = get_ascii_char(keycode);
+				chptrindex++;
 			}
 			else
 			{
 				ch = get_ascii_char_lower(keycode);
+				chptr[chptrindex] = get_ascii_char_lower(keycode);
+				chptrindex++;
 			}
 
 			print_char(ch);
 		}
 		sleep(0x02FFFFFF);
-	} while (ch > 0);
+	} while (stop == false);
+	
+	fn(strcnt(chptr));
 }
 /*
 char return_input()
