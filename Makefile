@@ -12,12 +12,12 @@ x86_64_object_files := $(x86_64_c_object_files) $(x86_64_asm_object_files)
 
 $(kernel_object_files): build/kernel/%.o : src/kernel/%.c
 	mkdir -p $(dir $@) && \
-	x86_64-elf-gcc -c -I src/include -ffreestanding $(patsubst build/kernel/%.o, src/kernel/%.c, $@) -o $@
+	x86_64-elf-gcc -c -I src/include -ffreestanding $(patsubst build/include%.o, src/include%.c, $@) -o $@
 	x86_64-elf-gcc -c -I src/kernel/arch -ffreestanding $(patsubst build/kernel/arch/%.o, src/kernel/arch/%.c, $@) -o $@
 
 $(x86_64_c_object_files): build/kernel/%.o : src/kernel/%.c
 	mkdir -p $(dir $@) && \
-	x86_64-elf-gcc -c -I src/include -ffreestanding $(patsubst build/kernel/%.o, src/kernel/%.c, $@) -o $@
+	x86_64-elf-gcc -c -I src/include -ffreestanding $(patsubst build/include%.o, src/include%.c, $@) -o $@
 	x86_64-elf-gcc -c -I src/kernel/arch -ffreestanding $(patsubst build/kernel/arch/%.o, src/kernel/arch/%.c, $@) -o $@
 	
 $(x86_64_asm_object_files): build/kernel/%.o : src/kernel/assembly/%.asm

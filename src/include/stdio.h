@@ -1,7 +1,5 @@
-#ifndef _STDIO_H
-#define _STDIO_H
-
-#include "sys/cdefs.h"
+#ifndef _STDIO_H_
+#define _STDIO_H_
 
 int printf(const char* __restrict, ...);
 int putchar(int);

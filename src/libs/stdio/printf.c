@@ -1,7 +1,6 @@
 #define INT_MAX 2147483647
 #include <stdbool.h>
 #include <stdarg.h>
-#include "../../include/stdio.h"
 #include "../../include/string.h"
 
 static bool print(const char* data, size_t length) {

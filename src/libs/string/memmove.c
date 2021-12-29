@@ -1,4 +1,4 @@
-#include "../../include/string.h"
+#include <stddef.h>
 
 void* memmove(void* dstpstr, const void* srcptr, size_t size) {
     unsigned char* dst = (unsigned char*) dstpstr;
