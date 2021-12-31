@@ -1,12 +1,12 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include "../../include/stdio.h"
 #include "../../include/string.h"
-
 #include "vga.h"
 
 static const size_t VGA_WIDTH = 80;
-static const size_t VGA_HEIGHT = 25;
+static const size_t VGA_HEIGHT = 24;
 static uint16_t* const VGA_MEMORY = (uint16_t*) 0xB8000;
 
 static size_t terminal_row;
@@ -38,20 +38,44 @@ void terminal_putentryat(unsigned char c, uint8_t color, size_t x, size_t y) {
 
 void terminal_putchar(char c) {
 	unsigned char uc = c;
+    if (terminal_column++ == VGA_WIDTH) {
+        if (terminal_row == VGA_HEIGHT) {
+            terminal_scroll();
+        } else {
+            terminal_column = 0;
+            terminal_row++;
+        }
+    }
+
 	terminal_putentryat(uc, terminal_color, terminal_column, terminal_row);
-	if (terminal_column++ == VGA_WIDTH) {
-		terminal_column = 0;
-		if (terminal_row++ == VGA_HEIGHT)
-			terminal_row = 0;
-	}
 }
 
 void terminal_write(const char* data, size_t size) {
-	for (size_t i = 0; i < size; i++) {
-        terminal_putchar(data[i]);
+    for (size_t i = 0; i < size; i++) {
+        if (data[i] == '\n') {
+            terminal_scroll();
+        } else {
+            terminal_putchar(data[i]);
+        }
     }	
 }
 
 void terminal_writestring(const char* data) {
 	terminal_write(data, strlen(data));
+}
+
+void terminal_scroll() {
+    terminal_column = 0;
+    
+    if (terminal_row++ == 24) {
+        char* screen = (char*) VGA_MEMORY + 320;
+        terminal_row = 24;
+
+        for (size_t i = 0; i < 3840; i++) {
+            *(screen - 160) = *screen;
+            screen++;
+        }        
+    } else {
+        terminal_row++;
+    }
 }

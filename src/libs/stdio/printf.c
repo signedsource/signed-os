@@ -1,7 +1,7 @@
 #define INT_MAX 2147483647
 #include <stdbool.h>
 #include <stdarg.h>
-#include "../../include/string.h"
+#include <stddef.h>
 
 static bool print(const char* data, size_t length) {
 	const unsigned char* bytes = (const unsigned char*) data;

@@ -8,7 +8,7 @@ Based on [this](https://www.youtube.com/watch?v=FkrpUaGThTQ&list=PLZQftyCk7_SeZR
 
 Build image for docker env:
 
-- `docker build buildenv -t os-buildenv`
+- `docker build docker -t os-buildenv`
 
 ## Build
 
@@ -18,7 +18,7 @@ Build image for docker env:
 
 Build for x86:
 
-- `make build-x86_64`
+- `node Makefile.js`
 
 to leave the build environment type `exit`
 
