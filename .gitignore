@@ -1,4 +1,4 @@
 .vscode/
 dist/
 build/
-targets/x86_64/iso/boot/kernel.bin
+targets/iso/boot/kernel.bin

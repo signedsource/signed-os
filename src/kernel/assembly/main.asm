@@ -3,6 +3,10 @@ extern long_mode_start
 
 section .text
 bits 32
+
+%include "disk.asm"
+%include "gdt.asm"
+
 start:
     mov esp, stack_top
 
@@ -12,6 +16,11 @@ start:
 
     call setup_page_tables
     call enable_paging
+
+    mov dh, 31 ; Our future kernel will be larger, make this big
+    mov dl, [BOOT_DRIVE]
+    call disk_load
+    ret
 
     lgdt [gdt64.pointer]
     jmp gdt64.code_segment:long_mode_start

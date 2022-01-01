@@ -55,8 +55,16 @@ const runCommand = async command => {
     return stdout;
 }
 
+const asmCompile = async (file, output) => {
+    await runCommand("cd src/kernel/assembly");
+    const result = await runCommand(`nasm -f elf64 ${file} -o ${output}`);
+    
+    console.log(result);
+    await runCommand("cd ../../..");
+}
+
 (async () => {
-    var cmdHeap = "x86_64-elf-ld -n -o dist/kernel.bin -T targets/linker.ld build/kernel/main.o";
+    var cmdHeap = "x86_64-elf-ld -n -o dist/kernel.bin -T targets/linker.ld";
 
     await runCommand("mkdir build").catch(() => {});
     await runCommand("mkdir dist").catch(() => {});
@@ -76,8 +84,7 @@ const runCommand = async command => {
             const result = await runCommand(`x86_64-elf-gcc -ffreestanding -c ${file.replace("./src", "src")} -o ${file.replace("./src", "build").replace(".c", ".o")}`);
             console.log(result);
         } else if (file.endsWith(".asm")) {
-            const result = await runCommand(`nasm -f elf64 ${file.replace("./src", "src")} -o ${file.replace("./src", "build").replace(".asm", ".o")}`);
-            console.log(result);
+            await asmCompile(file.replace("./src/kernel/assembly/", ""), file.replace("./src", "../../../build").replace(".asm", ".o"));
         }
     });
     
@@ -89,8 +96,6 @@ const runCommand = async command => {
     await runCommand("cp dist/kernel.bin targets/iso/boot/kernel.bin").catch(() => {});
     await runCommand("grub-mkrescue /usr/lib/grub/i386-pc -o dist/kernel.iso targets/iso").catch(() => {});
 
-	// await runCommand("rm -rf build").catch(() => {});
-    // await runCommand("rm -rf dist/kernel.bin").catch(() => {});
-
-    await console.log(cmdHeap);
+	await runCommand("rm -rf build").catch(() => {});
+    await runCommand("rm -rf dist/kernel.bin").catch(() => {});
 })();
