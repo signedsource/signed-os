@@ -16,9 +16,11 @@ x86_64-elf-gcc -ffreestanding -c src/kernel/main.c -o build/kernel/main.o -Wextr
 x86_64-elf-gcc -ffreestanding -c src/kernel/arch/tty.c -o build/kernel/arch/tty.o -Wextra
 # x86_64-elf-gcc -ffreestanding -c src/kernel/arch/vga.h -o build/kernel/arch/vga.o
 
-nasm -f elf64 src/kernel/assembly/main.asm -o build/kernel/assembly/main.o
-nasm -f elf64 src/kernel/assembly/main64.asm -o build/kernel/assembly/main64.o
-nasm -f elf64 src/kernel/assembly/header.asm -o build/kernel/assembly/header.o
+cd src/kernel/assembly
+nasm -f elf64 main.asm -o ../../../build/kernel/assembly/main.o
+nasm -f elf64 main64.asm -o ../../../build/kernel/assembly/main64.o
+nasm -f elf64 header.asm -o ../../../build/kernel/assembly/header.o
+cd ../../../
 
 x86_64-elf-gcc -ffreestanding -c src/libs/stdio/printf.c -o build/libs/stdio/printf.o -Wextra
 x86_64-elf-gcc -ffreestanding -c src/libs/stdio/putchar.c -o build/libs/stdio/putchar.o
